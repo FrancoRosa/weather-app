@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("window.onload = () => {\n  document.querySelector('body').innerHTML = 'Hello World!';\n  console.log('webpack working!');\n}\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("\nconst askWeather = () => {\n  const lat = '-13.51';\n  const lon = '-72.31';\n  fetch(getWeatherURL(lat, lon), {\n    mode: 'cors',\n    method: 'GET',\n  })\n    .then(response => response.json())\n    .then(data => console.log(data))\n    .catch(error => console.log(error));\n};\n\nconst getWeatherURL = (lat, lon) => {\n  const WEATHER_SERVER = \"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={key}\";\n  const url = WEATHER_SERVER.replace('{lat}', lat).replace('{lon}', lon).replace('{key}', \"37fe7dced1adaf904d0ca7f5e66ff95b\");\n  return url;\n};\n\nwindow.onload = () => {\n  document.querySelector('body').innerHTML = 'Hello World!';\n  console.log('webpack working!');\n  askWeather();\n};\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
