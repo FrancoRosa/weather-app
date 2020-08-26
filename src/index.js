@@ -1,4 +1,7 @@
 
+const cityLocation = { lat: 0, lng: 0 };
+const deviceLocation = { lat: 0, lng: 0 };
+
 const getWeatherURL = (lat, lon) => {
   const WEATHER_SERVER = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=daily,hourly,minutely&appid={key}";
   const url = WEATHER_SERVER.replace('{lat}', lat).replace('{lon}', lon).replace('{key}', process.env.OW_API_KEY);
@@ -20,7 +23,8 @@ const askWeather = (lat, lon) => {
 
 const importGoogleSrc = () => {
   const script = document.createElement('script');
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_API}&libraries=places`;
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_NAM_API_KEY}&libraries=places`;
+  script.defer = true;
   return script;
 };
 
@@ -45,13 +49,14 @@ const cityAutocomplete = () => {
     const log = document.createElement('p');
     const city = input.value;
     logs.appendChild(log);
+    const G_GEOLOC_API = 'AIzaSyCPWoduaS1Ohpkb4jnaiyWNp5xgNs61j3U';
     const GoogleServer = 'https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={geo_key}'
-    const GeoUrl = GoogleServer.replace('{geo_key}', process.env.GOOGLE_API).replace('{city}', city).replace(' ','%20')
+    const GeoUrl = GoogleServer.replace('{geo_key}', process.env.GOOGLE_GEO_API_KEY).replace('{city}', city).replace(' ', '%20');
     fetch(GeoUrl, { method: 'GET' })
       .then(response => response.json())
       .then(data =>{
-        window.loc_data = data;
-        askWeather(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);
+        cityLocation.lat = data.results[0].geometry.location.lat;
+        cityLocation.lat = data.results[0].geometry.location.lng;
       })
       .catch(error => console.log(error));
   };
@@ -59,7 +64,22 @@ const cityAutocomplete = () => {
   location.append(input, button);
 };
 
+const getDeviceLocation = () => {
+  navigator.geolocation.getCurrentPosition(position => {
+    const pos = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+    };
+    deviceLocation.lat = pos.lat;
+    deviceLocation.lng = pos.lng;
+  });
+  console.log(deviceLocation);
+};
+
 window.onload = () => {
-  document.querySelector('html').appendChild(importGoogleSrc());
+  importGoogleSrc();
+  getDeviceLocation();
   cityAutocomplete();
 };
+
+document.head.appendChild(importGoogleSrc());
