@@ -1,6 +1,7 @@
 
 import Unsplash, { toJson } from "unsplash-js";
 import eventMngr from './events';
+import { temp, speed } from './converters';
 
 const events = eventMngr();
 let metric = true;
@@ -54,7 +55,10 @@ const cityAutocomplete = () => {
   const searchBox = new google.maps.places.Autocomplete(input, options);
   const unitSwitch = document.querySelector('.unit-switch');
   metric = unitSwitch.checked;
-  unitSwitch.onclick = () => { metric = unitSwitch.checked };
+  unitSwitch.onclick = () => { 
+    metric = unitSwitch.checked;
+    changeUnits();
+  };
   searchBox.addListener('place_changed', () => {
     const GoogleServer = 'https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={geo_key}';
     const city = input.value;
@@ -119,6 +123,11 @@ const geocodeCityLocation = () => {
   return cityName;
 };
 
+const changeUnits = () => {
+  const temperature = document.querySelector('.temperature');
+  const wind = document.querySelector('.wind');
+}
+
 const askWeatherTrigger = () => {
   console.warn('ASK WEATHER TRIGGER');
   if (displayLocation.lat !== cityLocation.lat && displayLocation.lng !== cityLocation.lng) {
@@ -136,9 +145,9 @@ const renderWeather = (data) => {
   container.innerHTML = '';
   container.append(
     icon,
-    createComponent('p', '', `Temp: ${data.current.temp}`),
+    createComponent('p', 'temperature', `Temp: ${temp(data.current.temp, metric)}`),
     createComponent('p', '', `Hum: ${data.current.humidity}%`),
-    createComponent('p', '', `Wind: ${data.current.wind_speed}`),
+    createComponent('p', 'wind', `Wind: ${speed(data.current.wind_speed, metric)}`),
     createComponent('p', '', `UV: ${data.current.uvi}`),
     createComponent('p', '', `Descrip: ${data.current.weather[0].description}`),
     createComponent('p', '', `Icon: ${data.current.weather[0].icon}`),
