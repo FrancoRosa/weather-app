@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather</title>
+  <title>Weather App</title>
   <script src="main.js"></script>
+  <link rel="stylesheet" href="../src/css/style.css">
 </head>
 <body>
-  <div class=location> </div>
-  <h3 class="city-name"></h3>
+  <div class="location"> </div>
+  <input class="city-name" type="text" value="" placeholder="Write a city name"  autofocus>
+  <label class="switch">
+    <input type="checkbox" class="unit-switch">
+    <span class="slider round"></span>
+  </label>
   <div class="weather-data"></div>
-  <div class=logs> </div>
+  <div class="logs"> </div>
 </body>
 </html>

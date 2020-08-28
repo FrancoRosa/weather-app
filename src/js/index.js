@@ -1,6 +1,19 @@
 
+import Unsplash, { toJson } from "unsplash-js";
+import eventMngr from './events';
+
+const events = eventMngr();
+let metric = true;
+
+const unsplash = new Unsplash({
+  accessKey: `${process.env.UNSPLASH_ACCESS}`,
+  secretKey: `${process.env.UNSPLASH_SECRET}`,
+});
+
 const cityLocation = { lat: 0, lng: 0 };
 const displayLocation = { lat: 0, lng: 0 };
+window.cityLocation = cityLocation;
+window.displayLocation = displayLocation;
 
 const getWeatherURL = (lat, lon) => {
   const WEATHER_SERVER = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=daily,hourly,minutely&appid={key}";
@@ -36,40 +49,35 @@ const createComponent = (type, classes, content) => {
 };
 
 const cityAutocomplete = () => {
-  const location = document.querySelector('.location');
-  const logs = document.querySelector('.logs');
-  const input = document.createElement('input');
-  const button = document.createElement('button');
-  button.textContent = 'Go!';
-  input.placeholder = 'Enter a city name';
-  const options = { types: ['(cities)'], };
+  const input = document.querySelector('.city-name');
+  const options = { types: ['(cities)'] };
   const searchBox = new google.maps.places.Autocomplete(input, options);
-
-  button.onclick = () => {
-    const log = document.createElement('p');
+  const unitSwitch = document.querySelector('.unit-switch');
+  metric = unitSwitch.checked;
+  unitSwitch.onclick = () => { metric = unitSwitch.checked };
+  searchBox.addListener('place_changed', () => {
+    const GoogleServer = 'https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={geo_key}';
     const city = input.value;
-    logs.appendChild(log);
-    const G_GEOLOC_API = 'AIzaSyCPWoduaS1Ohpkb4jnaiyWNp5xgNs61j3U';
-    const GoogleServer = 'https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={geo_key}'
-    const GeoUrl = GoogleServer.replace('{geo_key}', process.env.GOOGLE_GEO_API_KEY).replace('{city}', city).replace(' ', '%20');
+    const GeoUrl = GoogleServer
+      .replace('{geo_key}', process.env.GOOGLE_GEO_API_KEY)
+      .replace('{city}', city)
+      .replace(' ', '%20');
     fetch(GeoUrl, { method: 'GET' })
       .then(response => response.json())
       .then(data =>{
         cityLocation.lat = data.results[0].geometry.location.lat;
         cityLocation.lng = data.results[0].geometry.location.lng;
-        console.log('Clicked');
-        console.log(cityLocation);
+        events.publish('cityLocated');
       })
       .catch(error => {
         console.log('No se encontro informacion de esa ciudad');
         console.log(error);
       });
-  };
-
-  location.append(input, button);
+  });
 };
 
 const getDeviceLocation = () => {
+  console.warn('START GET LOCATION');
   navigator.geolocation.getCurrentPosition(position => {
     const pos = {
       lat: position.coords.latitude,
@@ -77,8 +85,9 @@ const getDeviceLocation = () => {
     };
     cityLocation.lat = pos.lat;
     cityLocation.lng = pos.lng;
+    events.publish('cityLocated');
+    geocodeCityLocation();
   });
-  console.log(cityLocation);
 };
 
 const getCityFromGeocode = (object) => {
@@ -111,9 +120,10 @@ const geocodeCityLocation = () => {
 };
 
 const askWeatherTrigger = () => {
+  console.warn('ASK WEATHER TRIGGER');
   if (displayLocation.lat !== cityLocation.lat && displayLocation.lng !== cityLocation.lng) {
     askWeather(cityLocation.lat, cityLocation.lng);
-    geocodeCityLocation();
+    // geocodeCityLocation();
     displayLocation.lat = cityLocation.lat;
     displayLocation.lng = cityLocation.lng;
   }
@@ -121,11 +131,14 @@ const askWeatherTrigger = () => {
 
 const renderWeather = (data) => {
   const container = document.querySelector('.weather-data');
+  const icon = createComponent('img');
+  icon.src = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
   container.innerHTML = '';
   container.append(
+    icon,
     createComponent('p', '', `Temp: ${data.current.temp}`),
-    createComponent('p', '', `Hum: ${data.current.humidity}`),
-    createComponent('p', '', `Wind: ${data.current.wind}`),
+    createComponent('p', '', `Hum: ${data.current.humidity}%`),
+    createComponent('p', '', `Wind: ${data.current.wind_speed}`),
     createComponent('p', '', `UV: ${data.current.uvi}`),
     createComponent('p', '', `Descrip: ${data.current.weather[0].description}`),
     createComponent('p', '', `Icon: ${data.current.weather[0].icon}`),
@@ -134,17 +147,25 @@ const renderWeather = (data) => {
 
 const renderCityName = (data) => {
   const container = document.querySelector('.city-name');
-  container.textContent = data;
+  container.value = data;
 };
+
+events.subscribe('cityLocated', askWeatherTrigger);
+
+async function getImage(key, container) {
+  const json = await unsplash.search.photos(key, 1, 5, { orientation: 'landscape' }).then(toJson);
+  container.src = json.results[0].urls.small;
+}
 
 window.onload = () => {
   importGoogleSrc();
   getDeviceLocation();
   cityAutocomplete();
+  const image = createComponent('img');
+  getImage('cats', image);
+  document.body.appendChild(image);
 };
 
-setInterval(() => {
-  askWeatherTrigger();
-}, 10000);
-
 document.head.appendChild(importGoogleSrc());
+
+
