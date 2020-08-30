@@ -1,15 +1,19 @@
 export const temp = (value, metric) => {
+  let unit = '°F';
+  let result = (((value - 273.15) * 9.0) / 5.0) + 32;
   if (metric) {
-    value = ((value - 32) * 5.0) / 9.0;
-    return `${value} °C`;
+    unit = '°C';
+    result = value - 273.15;
   }
-  return `${value} °F`;
+  return `${result.toFixed(1)}${unit}`;
 };
 
 export const speed = (value, metric) => {
+  let unit = 'mph';
+  let result = value * 2.237;
   if (metric) {
-    value /= 2.237;
-    return `${value} m/s`;
+    unit = 'm/s';
+    result = value;
   }
-  return `${value} miles/hour`;
+  return `${(result).toFixed(1)}${unit}`;
 };

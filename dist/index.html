@@ -6,17 +6,24 @@
   <title>Weather App</title>
   <script src="main.js"></script>
   <link rel="stylesheet" href="../src/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="location"> </div>
-  <input class="city-name" type="text" value="" placeholder="Write a city name"  autofocus>
-  imperial
-  <label class="switch">
-    <input type="checkbox" class="unit-switch">
-    <span class="slider round"></span>
-  </label>
-  metric
-  <div class="weather-data"></div>
-  <div class="logs"> </div>
+  <div class="switch-container shadow">
+    <span>Imperial</span> 
+    <label class="switch">
+      <input type="checkbox" class="unit-switch">
+      <span class="slider round"></span>
+    </label>
+    <span>Metric</span> 
+  </div>
+  <input class="city-name shadow" type="text" value="" spellcheck="false" placeholder=" ">
+  <div class="weather-data shadow">
+    <img class="weather-icon shadow" src="../src/img/empty.png" alt="img">
+    <p class="message medium-text"> </p>
+    <p class="temperature large-text"> </p>
+    <p class="humidity small-text"> </p>
+    <p class="wind small-text"> </p>
+  </div>
 </body>
 </html>
