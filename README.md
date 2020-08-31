@@ -16,7 +16,7 @@ To let the app know your current city, enable the location permission on your br
 
 ## Live Demo
 I will feel honored if you try my app and tell me how to improve it.
-it is hosted on a Netlify Free account so be patient, sometimes it takes a while to load.
+It is hosted on a Netlify Free account so be patient, sometimes it takes a while to load.
 [weather-app](https://everyweather.netlify.com)
 
 ## Built With
