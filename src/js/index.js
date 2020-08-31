@@ -1,4 +1,4 @@
-
+import '../css/style.css';
 import { getDeviceLocation, importGoogleSrc } from './maps';
 import { cityAutocomplete, renderCityName, renderWeather } from './display';
 import askWeather from './weather';
