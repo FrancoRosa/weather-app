@@ -7,10 +7,11 @@
   <script src="main.js"></script>
   <!-- <link rel="stylesheet" href="../src/css/style.css"> -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
 </head>
 <body>
   
-  <input class="city-name shadow" type="text" value="" spellcheck="false" placeholder=".">
+  <input class="city-name shadow" type="text" value="" spellcheck="false" placeholder="Name a city">
   <div class="weather-data shadow hidden">
     <div class="bg-container"></div>
     <div class="switch-container ">
@@ -26,6 +27,9 @@
     <p class="temperature large-text"> </p>
     <p class="humidity small-text"> </p>
     <p class="wind small-text"> </p>
+  </div>
+  <div class="loading-icon">
+    <i class="fas fa-cog fa-spin fa-3x"></i>
   </div>
 </body>
 </html>

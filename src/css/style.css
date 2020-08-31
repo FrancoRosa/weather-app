@@ -1,24 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  /* The image used */
-  background-image:
-    linear-gradient(to bottom, #f5f6fc85, #75135dba),
-    url("../img/initial-bg.jpg");
-
-  /* Full height */
+  background-color: lightgray;
+  background-image: linear-gradient(to bottom, #f5f6fc85, #75135dba);
   height: 100vh;
-
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0;
-  padding: 0;
   color: white;
+}
+
+.bg-container {
+  z-index: -1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
 }
 
 .shadow {
@@ -32,6 +37,7 @@ body {
   font-size: 3rem;
   text-align: center;
   color: white;
+  max-width: 80%;
 }
 
 .large-text {
@@ -41,14 +47,10 @@ body {
 
 .medium-text {
   font-size: 2rem;
-  margin: 0;
-  padding: 0;
 }
 
 .small-text {
   font-size: 1.5rem;
-  margin: 0;
-  padding: 0;
 }
 
 .switch {

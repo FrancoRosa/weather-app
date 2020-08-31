@@ -9,8 +9,8 @@ async function setBackground() {
   const city = document.querySelector('.city-name').value;
 
   const json = await unsplash.search.photos(city, 1, 5, { orientation: 'landscape' }).then(toJson);
-  document.body.style['background-image'] = ` linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(117, 19, 93, 0.73)),
-  url("${json.results[0].urls.small}")`;
+  document.querySelector('.bg-container')
+    .style['background-image'] = ` linear-gradient(to bottom, #f5f6fc85, #75135dba), url("${json.results[0].urls.small}")`;
 }
 
 export default setBackground;

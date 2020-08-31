@@ -16,8 +16,13 @@ const changeUnits = () => {
 
 const showDataContainer = (status) => {
   const container = document.querySelector('.weather-data');
-  if (status) container.classList.remove('hidden');
-  else container.classList.add('hidden');
+  if (status) {
+    container.classList.remove('hidden');
+    document.querySelector('.loading-icon').classList.add('hidden');
+  } else {
+    container.classList.add('hidden');
+    document.querySelector('.loading-icon').classList.remove('hidden');
+  }
 };
 
 export const cityAutocomplete = () => {
@@ -30,6 +35,12 @@ export const cityAutocomplete = () => {
     metric = unitSwitch.checked;
     changeUnits();
   };
+
+  input.onkeyup = () => {
+    document.querySelector('.weather-data').classList.add('hidden');
+    document.querySelector('.loading-icon').classList.remove('hidden');
+  };
+
   searchBox.addListener('place_changed', () => {
     showDataContainer(false);
     getCityLocation();
