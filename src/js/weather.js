@@ -9,11 +9,15 @@ const getWeatherURL = (lat, lon) => {
 };
 
 const askWeather = async (lat, lon) => {
-  const response = await fetch(getWeatherURL(lat, lon), {
-    mode: 'cors',
-  });
-  const data = await response.json();
-  events.publish('weatherDataFound', data);
+  try {
+    const response = await fetch(getWeatherURL(lat, lon), {
+      mode: 'cors',
+    });
+    const data = await response.json();
+    events.publish('weatherDataFound', data);
+  } catch (error) {
+    events.publish('weatherDataNotFound');
+  }
 };
 
 export default askWeather;
