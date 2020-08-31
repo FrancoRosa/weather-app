@@ -1,3 +1,5 @@
+/* global google */
+
 import eventMngr from './events';
 
 const cityLocation = { lat: 0, lng: 0 };

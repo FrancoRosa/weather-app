@@ -9,16 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="switch-container shadow">
-    <span>Imperial</span> 
-    <label class="switch">
-      <input type="checkbox" class="unit-switch">
-      <span class="slider round"></span>
-    </label>
-    <span>Metric</span> 
-  </div>
+  
   <input class="city-name shadow" type="text" value="" spellcheck="false" placeholder=".">
-  <div class="weather-data shadow">
+  <div class="weather-data shadow hidden">
+    <div class="bg-container"></div>
+    <div class="switch-container ">
+      <span>Imperial</span> 
+      <label class="switch">
+        <input type="checkbox" class="unit-switch">
+        <span class="slider round"></span>
+      </label>
+      <span>Metric</span> 
+    </div>
     <img class="weather-icon shadow" src="../src/img/empty.png" alt="img">
     <p class="message medium-text"> </p>
     <p class="temperature large-text"> </p>

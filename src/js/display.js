@@ -1,3 +1,5 @@
+/* global google */
+
 import { temp, speed } from './converters';
 import { getCityLocation } from './maps';
 import setBackground from './imgs';
@@ -12,6 +14,12 @@ const changeUnits = () => {
   wind.textContent = `Wind: ${speed(weatherData.current.wind_speed, metric)}`;
 };
 
+const showDataContainer = (status) => {
+  const container = document.querySelector('.weather-data');
+  if (status) container.classList.remove('hidden');
+  else container.classList.add('hidden');
+};
+
 export const cityAutocomplete = () => {
   const input = document.querySelector('.city-name');
   const options = { types: ['(cities)'] };
@@ -23,13 +31,13 @@ export const cityAutocomplete = () => {
     changeUnits();
   };
   searchBox.addListener('place_changed', () => {
+    showDataContainer(false);
     getCityLocation();
     setBackground();
   });
 };
 
 export const renderWeather = (data) => {
-
   weatherData = data;
 
   const capitalize = (s) => {
@@ -49,10 +57,11 @@ export const renderWeather = (data) => {
   temperature.textContent = temp(data.current.temp, metric);
   wind.textContent = `Wind: ${speed(data.current.wind_speed, metric)}`;
   humidity.textContent = `Humidity: ${data.current.humidity}%`;
+  showDataContainer(true);
 };
 
 export const renderCityName = (data) => {
   const container = document.querySelector('.city-name');
   container.value = data;
+  setBackground();
 };
-
