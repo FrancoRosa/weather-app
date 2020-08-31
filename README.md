@@ -22,25 +22,37 @@ It is hosted on a Netlify Free account so be patient, sometimes it takes a while
 ## Built With
 
 - JavaScript
-- Webpack
+- Webpack, dotenv-webpack
 - HTML, CSS
 - Deploy on [Netlify](https://www.netlify.com)
 
 ## Deploy
-To deploy this project locally, download or clone this repo
-1. Use the LiveView extension on VScode deploy this project, then open this port on your browser:
-```
-    http://localhost:5500/dist/
-```
-2. If you make any changes use webpack to create the _main.js_ file with:
-```
-    $ npx webpack
-```
-3. For continuous creation of _main.js_ on any source changes, run:
-```
-    $ npx webpack --watch
-```
 
+1. To deploy this project locally, download or clone this repo, request your own API keys and save them in a *.env* file, with the following names:
+```
+    OW_API_KEY = #########
+    GOOGLE_GEO_API_KEY = #########
+    GOOGLE_NAM_API_KEY = #########
+    UNSPLASH_ACCESS = #########
+    UNSPLASH_SECRET = #########
+```
+2. Install the dependencies to build the project
+```
+    npm install
+```
+3. Build the project with *npm run build* use the following command to start the development server :
+```
+    npm run start
+```
+4. If you make are making many changes use webpack on development mode:
+```
+    $ npm run dev
+```
+## Future features
+
+- Show forecast for next days
+- Improve responsiveness
+- Add footer with about and social media links
 
 ## Author
 
@@ -63,6 +75,7 @@ Give an ⭐️ if you like this project!
 - [Unsplash](https://unsplash.com) for the images I use in this project.
 - [OpenWeather](https://openweathermap.org) for the weather data shown in this project.
 - [Google Maps Plataform](https://developers.google.com/maps/documentation) for the autocomplete feature and the ability to get the device's location.
+- [Dotenv](https://www.npmjs.com/package/dotenv-webpack) Nice plugin to hide API keys.
 - Team #94 Capricornus Microverse, for the morning code reviews.
 
 ## 📝 License

@@ -94,7 +94,6 @@ input:checked + .slider::before {
   transform: translateX(1em);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 1.5rem;
 }
