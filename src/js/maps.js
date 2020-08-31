@@ -35,11 +35,15 @@ export const getCityLocation = async () => {
     .replace('{geo_key}', process.env.GOOGLE_GEO_API_KEY)
     .replace('{city}', city)
     .replace(' ', '%20');
-  const response = await fetch(GeoUrl, { method: 'GET' });
-  const data = await response.json();
-  cityLocation.lat = data.results[0].geometry.location.lat;
-  cityLocation.lng = data.results[0].geometry.location.lng;
-  events.publish('cityLocated', cityLocation);
+  try {
+    const response = await fetch(GeoUrl, { method: 'GET' });
+    const data = await response.json();
+    cityLocation.lat = data.results[0].geometry.location.lat;
+    cityLocation.lng = data.results[0].geometry.location.lng;
+    events.publish('cityLocated', cityLocation);
+  } catch (error) {
+    events.publish('cityNotLocated');
+  }
 };
 
 export const importGoogleSrc = () => {

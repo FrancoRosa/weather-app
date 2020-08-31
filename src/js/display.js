@@ -48,6 +48,27 @@ export const cityAutocomplete = () => {
   });
 };
 
+
+export const renderErrors = () => {
+  const clearError = () => {
+    document.querySelector('.name-error').classList.add('hidden');
+    document.querySelector('.data-error').classList.add('hidden');
+  };
+
+  const nameError = () => {
+    document.querySelector('.name-error').classList.remove('hidden');
+  };
+
+  const dataError = () => {
+    document.querySelector('.data-error').classList.remove('hidden');
+  };
+  return {
+    clearError,
+    nameError,
+    dataError,
+  };
+};
+
 export const renderWeather = (data) => {
   weatherData = data;
 

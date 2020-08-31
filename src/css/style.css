@@ -116,6 +116,11 @@ input:checked + .slider::before {
   align-items: center;
 }
 
+.errors {
+  padding: 1em;
+  text-align: center;
+}
+
 .hidden {
   display: none;
 }
